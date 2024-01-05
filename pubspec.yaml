@@ -1,0 +1,64 @@
+name: ai_assistant
+description: An AI Assistant (ChatBot, Image Generator & Language Translator) App Based on ChatGPT developed by Prashant Verma 
+
+publish_to: 'none' 
+
+# App Version
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.3 <4.0.0'
+
+# Dependencies
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # iOS Styled Icons
+  cupertino_icons: ^1.0.2
+
+  # Encourages Good Practices
+  flutter_lints: ^2.0.0
+
+  # For Changing App Icon
+  icons_launcher: ^2.1.4
+
+  # For Hive Database
+  hive: ^4.0.0-dev.2
+  isar_flutter_libs: ^4.0.0-dev.13
+
+  # For Accessing Storage Path
+  path_provider: ^2.1.0
+
+  # For State Management
+  get: ^4.6.6
+
+  # For Custom Animation
+  flutter_animate: ^4.2.0+1   
+  lottie: ^2.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+
+  # Enables Material Design
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/lottie/
+  #   - images/a_dot_ham.jpeg
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
