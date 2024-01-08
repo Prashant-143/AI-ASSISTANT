@@ -1,4 +1,10 @@
+import 'package:ai_assistant/features/chat_feature.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../features/bg_remove_feature.dart';
+import '../features/image_feature.dart';
+import '../features/translator_feature.dart';
 
 enum HomeType { aiChatBot, aiImage, aiTranslator, aiBgRemover }
 
@@ -33,5 +39,13 @@ extension MyHomeType on HomeType {
         HomeType.aiImage => const EdgeInsets.all(18),
         HomeType.aiTranslator => EdgeInsets.zero,
         HomeType.aiBgRemover => EdgeInsets.zero,
+      };
+
+  // For onTap
+  VoidCallback get onTap => switch (this) {
+        HomeType.aiChatBot => () => Get.to(() => const ChatBotFeature()),
+        HomeType.aiImage => () => Get.to(() => const ImageFeature()),
+        HomeType.aiTranslator => () => Get.to(() => const TransaltorFeature()),
+        HomeType.aiBgRemover => () => Get.to(() => const BgRemoverFeature()),
       };
 }

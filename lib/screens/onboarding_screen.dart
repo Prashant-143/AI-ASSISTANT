@@ -29,6 +29,13 @@ class OnboardingScreen extends StatelessWidget {
           subtitle:
               'I can be your Best Friend & You can ask me anything & I will help you!',
           lottie: 'ai_play'),
+
+      //Onboarding 3
+
+      Onboard(
+          title: 'AI Bg Remover',
+          subtitle: 'Upload your image and i will remove the background of it!',
+          lottie: 'Bgremover'),
     ];
     return Scaffold(
       body: PageView.builder(
@@ -36,13 +43,16 @@ class OnboardingScreen extends StatelessWidget {
         itemCount: list.length,
         itemBuilder: (ctx, ind) {
           final isLast = ind == list.length - 1;
+          final isSecond = ind == list.length - 2;
 
           return Column(
             children: [
               // Lottie
               Lottie.asset('assets/lottie/${list[ind].lottie}.json',
                   height: mq.height * .6,
-                  width: isLast ? mq.width * 0.7 : null),
+                  width: isSecond
+                      ? mq.width * 0.7
+                      : (isLast ? mq.width * 1 : mq.width)),
 
               // Ttile
               Text(
@@ -53,7 +63,7 @@ class OnboardingScreen extends StatelessWidget {
                     letterSpacing: .5),
               ),
 
-              // For adding some space
+              // For adding some space...
               SizedBox(height: mq.height * .015),
 
               // Subtitle
@@ -70,15 +80,16 @@ class OnboardingScreen extends StatelessWidget {
               Wrap(
                 spacing: 10,
                 children: List.generate(
-                    list.length,
-                    (i) => Container(
-                          width: i == ind ? 15 : 10,
-                          height: 8,
-                          decoration: BoxDecoration(
-                              color: i == ind ? Colors.blue : Colors.grey,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5))),
-                        )),
+                  list.length,
+                  (i) => Container(
+                    width: i == ind ? 15 : 10,
+                    height: 8,
+                    decoration: BoxDecoration(
+                        color: i == ind ? Colors.blue : Colors.grey,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5))),
+                  ),
+                ),
               ),
 
               const Spacer(),

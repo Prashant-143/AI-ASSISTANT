@@ -19,13 +19,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    Pref.showOnbaording = false;
+    Pref.showOnboarding = false;
   }
 
   @override
   Widget build(BuildContext context) {
     //initializing device size
     mq = MediaQuery.sizeOf(context);
+
+    // APIs.getAnswer('hii');
 
     return Scaffold(
       //app bar

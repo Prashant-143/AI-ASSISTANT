@@ -11,7 +11,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // initialize hive
-  Pref.initialize();
+  await Pref.initialize();
 
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   await SystemChrome.setPreferredOrientations(
@@ -25,10 +25,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       title: appName,
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          elevation: 1,
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.blue),
+          titleTextStyle: TextStyle(
+              color: Colors.blue, fontSize: 20, fontWeight: FontWeight.w500),
+        ),
+      ),
+      home: const SplashScreen(),
     );
   }
 }
