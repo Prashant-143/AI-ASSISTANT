@@ -10,7 +10,7 @@ import 'package:http/http.dart';
 class APIs {
 //Get answer from ChatGPT
 
-  static Future<void> getAnswer(question) async {
+  static Future<String> getAnswer(question) async {
     try {
       final response =
           await post(Uri.parse('https://api.openai.com/v1/chat/completions'),
@@ -32,7 +32,7 @@ class APIs {
       return data['choices'][0]['message']['content'];
     } catch (e) {
       log('getAnswerE: $e');
-      return;
+      return "Something went wrong (Please try again in sometime)";
     }
   }
 

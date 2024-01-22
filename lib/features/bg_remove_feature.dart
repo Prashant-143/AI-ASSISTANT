@@ -1,9 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
+
+import 'package:ai_assistant/helper/my_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:io';
 import 'package:ai_assistant/apis/apis.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver_updated/gallery_saver.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:before_after_image_slider_nullsafty/before_after_image_slider_nullsafty.dart';
+import '../helper/global.dart';
 import '../widgets/dashed_border.dart';
 
 class BgRemoverFeature extends StatefulWidget {
@@ -42,6 +44,68 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
     setState(() {});
   }
 
+  // Future<void> checkAndRequestPermissions() async {
+  //   if (Platform.isAndroid) {
+  //     final PermissionStatus storagePermissionStatus =
+  //         await Permission.storage.status;
+  //     if (storagePermissionStatus.isDenied) {
+  //       if (await isAndroidVersionAtLeast(33)) {
+  //         // Request specific permissions for Android 13 or higher
+  //         await _requestSpecificMediaPermissions();
+  //       } else {
+  //         // Request general storage permission for Android versions below 13
+  //         await _requestStoragePermission();
+  //       }
+  //     }
+  //   }
+  // }
+
+  // Future<bool> isAndroidVersionAtLeast(int version) async {
+  //   final AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+  //   final int sdkInt = androidInfo.version.sdkInt;
+  //   return sdkInt >= version;
+  // }
+
+  // Future<void> _requestSpecificMediaPermissions() async {
+  //   try {
+  //     final Map<Permission, PermissionStatus> permissionStatuses = await [
+  //       Permission.mediaLibrary,
+  //       Permission.photos,
+  //       Permission.videos,
+  //       Permission.audio,
+  //       Permission.accessMediaLocation,
+  //       Permission.accessMediaLocation,
+  //       Permission.bluetooth,
+  //       Permission.bluetoothConnect,
+  //       Permission.bluetoothScan,
+  //       Permission.camera,
+  //       Permission.contacts,
+  //     ].request();
+  //     // Handle permission statuses if needed
+  //   } catch (e) {
+  //     // Handle permission request error
+  //     print('Error requesting specific media permissions: $e');
+  //   }
+  // }
+
+  // Future<void> _requestStoragePermission() async {
+  //   try {
+  //     final PermissionStatus status = await Permission.storage.request();
+  //     if (status.isDenied) {
+  //       // Handle if permission is denied for storage
+  //       final bool isPermanentlyDenied =
+  //           await Permission.storage.isPermanentlyDenied;
+  //       if (isPermanentlyDenied) {
+  //         // Open app settings if permission is permanently denied
+  //         await openAppSettings();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     // Handle permission request error
+  //     log('Error requesting storage permission: $e');
+  //   }
+  // }
+
   ScreenshotController screenshotController = ScreenshotController();
   // APIs api = APIs(); // Instance of the Api class
 
@@ -55,92 +119,6 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
       setState(() {});
     } else {}
   }
-
-  // final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  // late AndroidDeviceInfo androidInfo;
-
-  // Future<Directory> getSaveDirectory() async {
-  //   if (Platform.isWindows) {
-  //     // Specify the Windows directory
-  //     return Directory("C:\\Users\\acer\\Downloads\\AI BG REMOVER");
-  //   } else if (Platform.isMacOS) {
-  //     // Specify the macOS directory
-  //     return Directory("/YourMacOSDirectory");
-  //   } else if (Platform.isLinux) {
-  //     // Specify the Linux directory
-  //     return Directory("/YourLinuxDirectory");
-  //   } else {
-  //     // For other platforms, you can specify a default directory
-  //     return Directory("storage/emulated/0/Download/AI BG REMOVER");
-  //   }
-  // }
-
-  // downloadImage() async {
-  //   if (Platform.isAndroid) {
-  //     androidInfo = await deviceInfo.androidInfo;
-
-  //     if (androidInfo.version.sdkInt < 33) {
-  //       PermissionStatus status = await Permission.storage.request();
-
-  //       try {
-  //         if (status.isGranted) {
-  //           // Permission granted, continue with download
-  //           try {
-  //             log('Android 13 Lower Version Block Is Executed');
-  //             var filename = "${DateTime.now().millisecondsSinceEpoch}.png";
-  //             final directory = await getSaveDirectory();
-
-  //             if (!await directory.exists()) {
-  //               await directory.create(recursive: true);
-  //             }
-
-  //             await screenshotController.captureAndSave(
-  //               directory.path,
-  //               delay: const Duration(milliseconds: 100),
-  //               fileName: filename,
-  //               pixelRatio: 1.0,
-  //             );
-
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               SnackBar(content: Text("Downloaded to ${directory.path}")),
-  //             );
-  //           } catch (e) {
-  //             log('Error while capturing and saving screenshot: $e');
-  //           }
-  //         } else if (status.isPermanentlyDenied) {
-  //           // Open app settings for manual permission granting
-  //           openAppSettings();
-  //         }
-  //       } catch (e) {
-  //         log('Error while checking and requesting storage permission: $e');
-  //       }
-  //     } else {
-  //       log('Android 13 or higher Block Is Executed');
-
-  //       try {
-  //         var filename = "${DateTime.now().millisecondsSinceEpoch}.png";
-  //         final directory = await getSaveDirectory();
-
-  //         if (!await directory.exists()) {
-  //           await directory.create(recursive: true);
-  //         }
-
-  //         await screenshotController.captureAndSave(
-  //           directory.path,
-  //           delay: const Duration(milliseconds: 100),
-  //           fileName: filename,
-  //           pixelRatio: 1.0,
-  //         );
-
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(content: Text("Downloaded to ${directory.path}")),
-  //         );
-  //       } catch (e) {
-  //         log('Error while capturing and saving screenshot: $e');
-  //       }
-  //     }
-  //   }
-  // }
 
   Future<void> downloadImage() async {
     try {
@@ -156,19 +134,14 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
         // Save the temporary file to the gallery
         await GallerySaver.saveImage(tempFile.path, albumName: 'AI BG REMOVER');
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Image saved to gallery")),
-        );
+        MyDialogs.success(msg: "Image saved to gallery");
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("No image available to save")),
-        );
+        MyDialogs.info(msg: "No image available to save");
       }
     } catch (e) {
       log('Error while saving image to gallery: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error while saving image to gallery")),
-      );
+
+      MyDialogs.error(msg: "Error while saving image to gallery");
     }
   }
 
@@ -192,22 +165,17 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
           //     },
           //     icon: const Icon(Icons.camera_alt)),
 
-          // IconButton(
-          //     onPressed: () {
-          //       reset();
-          //     },
-          //     icon: const Icon(Icons.home)),
+          IconButton(
+              onPressed: () {
+                reset();
+              },
+              icon: const Icon(Icons.home)),
         ],
-        leading: IconButton(
-            onPressed: () {
-              reset();
-            },
-            icon: const Icon(Icons.home)),
         elevation: 02.0,
         title: const Text("AI BG Remover"),
         scrolledUnderElevation: 5,
         titleTextStyle: const TextStyle(
-            fontSize: 16.0, color: Colors.blue, fontWeight: FontWeight.w500),
+            fontSize: 18.0, color: Colors.blue, fontWeight: FontWeight.w500),
       ),
       body: Center(
         child: removedbg
@@ -225,7 +193,8 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
                 ? GestureDetector(
                     onTap: () {
                       bottomsheet();
-                      setState(() {});
+                      // checkAndRequestPermissions();
+                      // setState(() {});
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10),
@@ -257,8 +226,12 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
                         },
                         child: const Text("CHOOSE IMAGE"),
                       ),
-                    )),
+                    ),
+                  ),
       ),
+
+      //Floating Action Button For Downloading Image
+
       floatingActionButton: Visibility(
         visible: isVisible,
         child: FloatingActionButton(
@@ -316,44 +289,34 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // const SizedBox(height: 30),
             const Text(
               'Select Image From...',
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      pickImage(ImageSource.gallery);
-                      Get.back();
-                    },
-                    backgroundColor: Colors.redAccent,
-                    child: const Icon(Icons.photo_library),
-                  ),
+                  // First Button
+                  customButton(() {
+                    pickImage(ImageSource.gallery);
+                    Get.back();
+                  }, Icons.photo_album_outlined, 'Galary'),
+
+                  // SizedBox for some space
                   const SizedBox(width: 16),
-                  FloatingActionButton(
-                    onPressed: () {
-                      pickImage(ImageSource.camera);
-                      Get.back();
-                    },
-                    backgroundColor: Colors.redAccent,
-                    child: const Icon(Icons.photo_camera),
-                  ),
+
+                  // Second Button
+                  customButton(() {
+                    pickImage(ImageSource.camera);
+                    Get.back();
+                  }, Icons.camera_alt, 'Camera'),
                 ],
-              ),
-            ),
-            const Text(
-              'Gallary',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 10,
               ),
             ),
           ],

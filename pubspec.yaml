@@ -46,6 +46,8 @@ dependencies:
   before_after_image_slider_nullsafty: ^1.0.1
   device_info_plus: ^9.1.1
   gallery_saver_updated: ^3.0.0
+  animated_text_kit: ^4.2.2
+  # receive_sharing_intent: ^1.4.5
 
 dev_dependencies:
   flutter_test:
