@@ -1,4 +1,5 @@
 import 'package:ai_assistant/apis/apis.dart';
+import 'package:ai_assistant/helper/my_dialogs.dart';
 import 'package:ai_assistant/model/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,8 @@ class ChatController extends GetxController {
       _scrollDown();
 
       textc.text = '';
+    } else {
+      MyDialogs.info(msg: 'Ask Something!');
     }
   }
 

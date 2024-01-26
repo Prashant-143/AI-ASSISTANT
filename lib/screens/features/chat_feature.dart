@@ -3,7 +3,7 @@ import 'package:ai_assistant/widgets/message_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../helper/global.dart';
+import '../../helper/global.dart';
 
 class ChatBotFeature extends StatefulWidget {
   const ChatBotFeature({super.key});

@@ -12,8 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:before_after_image_slider_nullsafty/before_after_image_slider_nullsafty.dart';
-import '../helper/global.dart';
-import '../widgets/dashed_border.dart';
+import '../../helper/global.dart';
+import '../../widgets/dashed_border.dart';
 
 class BgRemoverFeature extends StatefulWidget {
   const BgRemoverFeature({Key? key}) : super(key: key);
@@ -122,7 +122,8 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
 
   Future<void> downloadImage() async {
     try {
-      if (image != null) {
+      if (image != null) //
+      {
         // Create a temporary file to save the image
 
         final tempDir = await getTemporaryDirectory();
@@ -306,6 +307,7 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
                   customButton(() {
                     pickImage(ImageSource.gallery);
                     Get.back();
+                    log('Image picked from galary');
                   }, Icons.photo_album_outlined, 'Galary'),
 
                   // SizedBox for some space
@@ -315,6 +317,7 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
                   customButton(() {
                     pickImage(ImageSource.camera);
                     Get.back();
+                    log('Image picked from camera');
                   }, Icons.camera_alt, 'Camera'),
                 ],
               ),

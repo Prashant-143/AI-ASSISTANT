@@ -38,22 +38,27 @@ class APIs {
 
 // Background Remover Api
 
-  static var baseUrl = Uri.parse("https://api.remove.bg/v1.0/removebg");
-
   static Future<Uint8List> removeBG(String imgPath) async {
+    var baseUrl = Uri.parse("https://api.remove.bg/v1.0/removebg");
+    log('RemoveBG is called');
+    log('Image path: $imgPath');
     var req = http.MultipartRequest("POST", baseUrl);
 
     req.headers.addAll({"X-API-Key": bgRemoverApiKey});
 
     req.files.add(await http.MultipartFile.fromPath("image_file", imgPath));
 
-    final res = await req.send();
-
-    if (res.statusCode == 200) {
-      http.Response img = await http.Response.fromStream(res);
-      return img.bodyBytes;
-    } else {
-      const AlertDialog(semanticLabel: "Failed to fetch data");
+    try {
+      final res = await req.send();
+      log('API request failed with status code: ${res.statusCode}');
+      if (res.statusCode == 200) {
+        http.Response img = await http.Response.fromStream(res);
+        return img.bodyBytes;
+      } else {
+        return Uint8List(0);
+      }
+    } catch (e) {
+      log('Error during API request: $e');
       return Uint8List(0);
     }
   }

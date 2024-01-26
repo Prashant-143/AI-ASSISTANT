@@ -1,10 +1,10 @@
-import 'package:ai_assistant/features/chat_feature.dart';
+import 'package:ai_assistant/screens/features/chat_feature.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../features/bg_remove_feature.dart';
-import '../features/image_feature.dart';
-import '../features/translator_feature.dart';
+import '../screens/features/bg_remove_feature.dart';
+import '../screens/features/image_feature.dart';
+import '../screens/features/translator_feature.dart';
 
 enum HomeType { aiChatBot, aiImage, aiTranslator, aiBgRemover }
 

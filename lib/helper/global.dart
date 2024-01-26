@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 const appName = 'AI Assistant';
 const appLogo = 'assets/images/AI_LOGO.png';
 
-const apiKey = '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';
-const bgRemoverApiKey = "EtqVVQrwY1Z5UQ5phtYhfokB";
+const apiKey = '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';
+// const bgRemoverApiKey = "EtqVVQrwY1Z5UQ5phtYhfokB";
+
+//Priyasnhsu BG API KEY
+const bgRemoverApiKey = "tfTsbYpXfYLh2QHeTbXLt2d2";
 
 late Size mq;
 

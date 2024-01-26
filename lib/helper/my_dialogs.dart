@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../widgets/custom_loading.dart';
+
 class MyDialogs {
   static success({required String msg}) {
     Get.snackbar('Success', msg,
@@ -18,8 +20,13 @@ class MyDialogs {
 
   static info({required String msg}) {
     Get.snackbar('Info', msg,
-        colorText: Colors.orange,
+        colorText: Colors.blue,
         isDismissible: true,
         dismissDirection: DismissDirection.horizontal);
+  }
+
+  //loading dialog
+  static void showLoadingDialog() {
+    Get.dialog(const Center(child: CustomLoading()));
   }
 }
