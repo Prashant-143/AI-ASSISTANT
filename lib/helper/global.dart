@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 const appName = 'AI Assistant';
 const appLogo = 'assets/images/AI_LOGO.png';
 
-const apiKey = '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';
+// const apiKey = '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';
+
+//New ChatGPT Api Key
+const apiKey = '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';
 // const bgRemoverApiKey = "EtqVVQrwY1Z5UQ5phtYhfokB";
 
 //Priyasnhsu BG API KEY

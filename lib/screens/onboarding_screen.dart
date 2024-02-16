@@ -101,7 +101,7 @@ class OnboardingScreen extends StatelessWidget {
                       Get.off(() => const HomeScreen());
                     } else {
                       pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 400),
                           curve: Curves.ease);
                     }
                   },

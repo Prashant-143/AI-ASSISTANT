@@ -49,6 +49,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   dart_openai: ^5.0.0
   cached_network_image: ^3.3.1
+  flutter_bounce: ^1.1.0
   # receive_sharing_intent: ^1.4.5
 
 dev_dependencies:
@@ -63,6 +64,11 @@ flutter:
   assets:
     - assets/images/
     - assets/lottie/
+    - assets/images/sample_image_1.jpg
+    - assets/images/sample_image_2.jpg
+    - assets/images/sample_image_3.jpg
+    - assets/images/sample_image_4.jpg
+
   #   - images/a_dot_ham.jpeg
 
   # fonts:

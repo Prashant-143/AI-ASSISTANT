@@ -1,16 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:ai_assistant/helper/my_dialogs.dart';
+import 'package:ai_assistant/controller/bg_remove_controller.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:io';
 import 'package:ai_assistant/apis/apis.dart';
 import 'package:flutter/services.dart';
-import 'package:gallery_saver_updated/gallery_saver.dart';
+import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:screenshot/screenshot.dart';
 import 'package:before_after_image_slider_nullsafty/before_after_image_slider_nullsafty.dart';
 import '../../helper/global.dart';
 import '../../widgets/dashed_border.dart';
@@ -24,6 +22,8 @@ class BgRemoverFeature extends StatefulWidget {
 }
 
 class _BgRemoverFeatureState extends State<BgRemoverFeature> {
+  final _c = BgRemoveController();
+
   var isloaded = false;
   var removedbg = false;
   var isloading = false;
@@ -106,7 +106,6 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
   //   }
   // }
 
-  ScreenshotController screenshotController = ScreenshotController();
   // APIs api = APIs(); // Instance of the Api class
 
   void pickImage(ImageSource source) async {
@@ -120,52 +119,21 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
     } else {}
   }
 
-  Future<void> downloadImage() async {
-    try {
-      if (image != null) //
-      {
-        // Create a temporary file to save the image
-
-        final tempDir = await getTemporaryDirectory();
-        final tempFile = File('${tempDir.path}/Ai_bg_remover.png');
-
-        // Write the image data to the temporary file
-        await tempFile.writeAsBytes(image!);
-
-        // Save the temporary file to the gallery
-        await GallerySaver.saveImage(tempFile.path, albumName: 'AI BG REMOVER');
-
-        MyDialogs.success(msg: "Image saved to gallery");
-      } else {
-        MyDialogs.info(msg: "No image available to save");
-      }
-    } catch (e) {
-      log('Error while saving image to gallery: $e');
-
-      MyDialogs.error(msg: "Error while saving image to gallery");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          //Icon Button To Show Download Button
           Visibility(
             visible: isVisible,
             child: IconButton(
                 onPressed: () {
-                  downloadImage();
+                  _c.downloadImage(image);
                 },
                 icon: const Icon(Icons.download)),
           ),
-          // IconButton(
-          //     onPressed: () {
-          //       pickImage(ImageSource.camera);
-          //       setState(() {});
-          //     },
-          //     icon: const Icon(Icons.camera_alt)),
-
+          //Icon Button To Reset Everthing
           IconButton(
               onPressed: () {
                 reset();
@@ -178,66 +146,173 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
         titleTextStyle: const TextStyle(
             fontSize: 18.0, color: Colors.blue, fontWeight: FontWeight.w500),
       ),
-      body: Center(
-        child: removedbg
-            ? BeforeAfter(
-                thumbColor: Colors.cyan,
-                imageCornerRadius: 6,
-                thumbRadius: 2,
-                beforeImage: Image.file(File(imagePath)),
-                afterImage: Screenshot(
-                  controller: screenshotController,
-                  child: Image.memory(image!),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (!isloaded) // Only show the Container if an image is not loaded
+            Container(
+              margin: EdgeInsets.only(
+                right: MediaQuery.of(context).size.width * 0.05,
+                left: MediaQuery.of(context).size.width * 0.05,
+                bottom: MediaQuery.of(context).size.width * 0.05,
+              ),
+              child: const Text(
+                'Upload an image\nto remove the background',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
                 ),
-              )
-            : isloaded
-                ? GestureDetector(
-                    onTap: () {
-                      bottomsheet();
-                      // checkAndRequestPermissions();
-                      // setState(() {});
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: DashedBorder(
-                        radius: 3,
-                        strokeWidth: 2,
-                        padding: const EdgeInsets.all(5),
-                        color: Colors.cyan,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
-                          child: Image.file(
-                            File(imagePath),
+              ),
+            ),
+          Center(
+            child: removedbg
+                ? BeforeAfter(
+                    thumbColor: Colors.cyan,
+                    imageCornerRadius: 6,
+                    thumbRadius: 2,
+                    beforeImage: Image.file(File(imagePath)),
+                    afterImage: Image.memory(image!),
+                  )
+                : isloaded
+                    ? GestureDetector(
+                        onTap: () {
+                          bottomsheet();
+                          // checkAndRequestPermissions();
+                          // setState(() {});
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: DashedBorder(
+                            radius: 3,
+                            strokeWidth: 2,
+                            padding: const EdgeInsets.all(5),
+                            color: Colors.cyan,
+                            child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(5)),
+                              child: Image.file(
+                                File(imagePath),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        margin: EdgeInsets.only(
+                          right: mq.width * 0.03,
+                          left: mq.width * 0.03,
+                          bottom: mq.width * 0.03,
+                        ),
+                        width: 300,
+                        padding: const EdgeInsets.all(20),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(3, 3),
+                                blurRadius: 10,
+                                spreadRadius: 0,
+                                blurStyle: BlurStyle.normal)
+                          ],
+                        ),
+                        child: DashedBorder(
+                          padding: const EdgeInsets.all(25),
+                          color: Colors.cyan,
+                          gap: 3,
+                          strokeWidth: 2,
+                          radius: 5,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Bounce(
+                                  duration: const Duration(milliseconds: 120),
+                                  onPressed: () {
+                                    bottomsheet();
+                                  },
+                                  child: Container(
+                                    height: 45,
+                                    width: 180,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(
+                                          8), // Rounded corners
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.blue
+                                              .withOpacity(0.5), // Shadow color
+                                          spreadRadius: 2, // Spread radius
+                                          blurRadius: 4, // Blur radius
+                                          offset: const Offset(
+                                              0, 2), // Shadow offset
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        "UPLOAD IMAGE",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: mq.height * 0.02),
+                                const Text(
+                                  'No Images? Try one of these:👇',
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  padding:
+                                      EdgeInsets.only(bottom: mq.height * .03),
+                                  physics: const BouncingScrollPhysics(),
+                                  child: Wrap(
+                                    spacing: 10,
+                                    children: sampleImagesList
+                                        .map(
+                                          (e) => InkWell(
+                                            onTap: () {
+                                              imagePath = e;
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(8)),
+                                              child: SizedBox(
+                                                height: 100,
+                                                child: Image.asset(e),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                : DashedBorder(
-                    padding: const EdgeInsets.all(40),
-                    color: Colors.cyan,
-                    gap: 3,
-                    strokeWidth: 2,
-                    child: SizedBox(
-                      width: 200,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          bottomsheet();
-                        },
-                        child: const Text("CHOOSE IMAGE"),
-                      ),
-                    ),
-                  ),
+          )
+        ],
       ),
 
       //Floating Action Button For Downloading Image
-
       floatingActionButton: Visibility(
         visible: isVisible,
         child: FloatingActionButton(
           onPressed: () {
-            downloadImage();
+            _c.downloadImage(image);
           },
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -290,6 +365,13 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            const SizedBox(
+              width: 80,
+              child: Divider(
+                thickness: 4,
+                color: Colors.grey,
+              ),
+            ),
             const Text(
               'Select Image From...',
               style: TextStyle(
@@ -308,7 +390,7 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
                     pickImage(ImageSource.gallery);
                     Get.back();
                     log('Image picked from galary');
-                  }, Icons.photo_album_outlined, 'Galary'),
+                  }, Icons.photo_library, 'Galary'),
 
                   // SizedBox for some space
                   const SizedBox(width: 16),
@@ -327,4 +409,11 @@ class _BgRemoverFeatureState extends State<BgRemoverFeature> {
       ),
     );
   }
+
+  final sampleImagesList = <String>[
+    'assets/images/sample_image_1.jpg',
+    'assets/images/sample_image_2.jpg',
+    'assets/images/sample_image_3.jpg',
+    'assets/images/sample_image_4.jpg',
+  ].obs;
 }

@@ -22,6 +22,7 @@ class ChatController extends GetxController {
       list.add(Message(msg: textc.text, msgType: MessageType.user));
       list.add(Message(msg: '', msgType: MessageType.bot));
       _scrollDown();
+      textc.text = '';
 
       final apiRes = await APIs.getAnswer(textc.text);
 
@@ -29,8 +30,6 @@ class ChatController extends GetxController {
       list.removeLast();
       list.add(Message(msg: apiRes, msgType: MessageType.bot));
       _scrollDown();
-
-      textc.text = '';
     } else {
       MyDialogs.info(msg: 'Ask Something!');
     }

@@ -55,7 +55,7 @@ class ImageController extends GetxController {
     }
   }
 
-  void downloadImage() async {
+  void downloadAIImage() async {
     try {
       //To show loading
       MyDialogs.showLoadingDialog();
